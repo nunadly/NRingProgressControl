@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'NRingProgressControl_Example' do
+  pod 'NRingProgressControl', :path => '../'
+
+  target 'NRingProgressControl_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
