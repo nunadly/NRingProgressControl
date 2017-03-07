@@ -55,6 +55,8 @@
     
     _duration = 2.f;
     
+    UIPanGestureRecognizer *recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+    [self addGestureRecognizer:recognizer];
 }
 
 - (void) setRadius:(CGFloat)radius
@@ -185,6 +187,30 @@
     rotationAnimation.fillMode = kCAFillModeForwards;
     rotationAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
     [_handleHostLayer addAnimation:rotationAnimation forKey:@"transform.rotation"];
+}
+
+- (void) handlePan:(UIPanGestureRecognizer*)recognizer
+{
+    NSInteger currentAngle = ceil(AngleFromNorth(CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.self.frame)), [recognizer locationInView:self], YES));
+    
+    _progress = currentAngle/360.f;
+    
+    [CATransaction setAnimationDuration:0];
+    [self.handleHostLayer setValue:@(ToRad(currentAngle)) forKeyPath:@"transform.rotation"];
+    [self.handle setValue:@(ToRad(-currentAngle)) forKeyPath:@"transform.rotation"];
+    [self.circle setStrokeEnd:1/360.0 * currentAngle];
+}
+
+static inline float AngleFromNorth(CGPoint p1, CGPoint p2, BOOL flipped)
+{
+    CGPoint v = CGPointMake(p2.x-p1.x,p2.y-p1.y);
+    float vmag = sqrt(SQR(v.x) + SQR(v.y));
+    float result = 0;
+    v.x /= vmag;
+    v.y /= vmag;
+    double radians =  - (atan2(v.x, v.y) - M_PI);
+    result = ToDeg(radians);
+    return (result >=0  ? result : result );
 }
 
 

@@ -20,10 +20,12 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    
+    _NRPCtrl.progress = .65f;
 }
 
 - (IBAction)runProgress:(id)sender {
-    [self.NRPCtrl animateProgress:0.7];
+    [_NRPCtrl animateProgress:_NRPCtrl.progress];
 }
 
 - (void)didReceiveMemoryWarning
