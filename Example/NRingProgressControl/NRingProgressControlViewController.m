@@ -7,8 +7,10 @@
 //
 
 #import "NRingProgressControlViewController.h"
+#import "NRingProgressControl.h"
 
 @interface NRingProgressControlViewController ()
+@property (weak, nonatomic) IBOutlet NRingProgressControl *NRPCtrl;
 
 @end
 
@@ -18,6 +20,10 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+}
+
+- (IBAction)runProgress:(id)sender {
+    [self.NRPCtrl animateProgress:0.7];
 }
 
 - (void)didReceiveMemoryWarning
